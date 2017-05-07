@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    <title>Relay Server</title>
+</head>
+
+<body>
+    <form>
+        <input type="checkbox" id="0"> 0 <br>
+        <input type="checkbox" id="1"> 1 <br>
+        <input type="checkbox" id="2"> 2 <br>
+        <input type="checkbox" id="3"> 3 <br>
+        <input type="checkbox" id="4"> 4 <br>
+        <input type="checkbox" id="5"> 5 <br>
+        <input type="checkbox" id="6"> 6 <br>
+        <input type="checkbox" id="7"> 7 <br>
+        <input type="button" id="toggle" value="Toggle All" class="toggle/all">
+        <input type="button" id="allOn" value="Turn All ON" class="set/all/0">
+        <input type="button" id="allOff" value="Turn All OFF" class="set/all/1">
+    </form>
+    <script>
+        function update(stateTxt) {
+            for (var i = 0; i < 8; i++) {
+                document.getElementById("" + i).checked = (stateTxt.charAt(i) == '0');
+            }
+        }
+
+        function httpGetAsync(theUrl, callback) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    callback(xmlHttp.responseText);
+            }
+            xmlHttp.open("GET", theUrl, true);
+            xmlHttp.send(null);
+        }
+
+        function changeHandler(e) {
+            var url = "http://192.168.1.177/set/" + e.srcElement.id + "/" + ((e.srcElement.checked) ? 0 : 1);
+            httpGetAsync(url, update);
+        }
+
+        function clickHandler(e) {
+            var url = "http://192.168.1.177/" + e.srcElement.className;
+            httpGetAsync(url, update);
+        }
+
+        var inputs = document.getElementsByTagName("input");
+        for (i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "checkbox") {
+                inputs[i].onchange = changeHandler;
+            } else if (inputs[i].type == "button") {
+                inputs[i].onclick = clickHandler;
+            }
+        }
+
+
+        httpGetAsync("http://192.168.1.177/get", update);
+    </script>
+</body>
+
+</html>
