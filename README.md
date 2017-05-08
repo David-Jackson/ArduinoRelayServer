@@ -25,6 +25,7 @@ The general API request is as follows:
   - ex. ```http://192.168.1.177/set/all/1```: sets all pins OFF
 - #### ```toggle```: switches ```pin``` to the opposite of it's current ```state``
   - ex. ```http://192.168.1.177/toggle/all```: toggles all pins
+  - ex. ```http://192.168.1.177/toggle/5```: toggles pin index 5
 
 ### ```pins```
 - #### ```all```: address all of the pins
