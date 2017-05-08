@@ -1,4 +1,4 @@
-# RelayServer
+# Arduino Relay Server
 An Arduino project for controlling a relay module with a web server
 
 ## Build
